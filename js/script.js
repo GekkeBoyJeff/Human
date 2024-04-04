@@ -2,13 +2,16 @@ const header = document.querySelector('header');
 const sideNavToggler = document.querySelector('.sideNavToggler');
 const sideNav = document.querySelector('.sideNav');
 const selectOn = document.querySelector('.selectOn');
+const theme = document.querySelector('.theme');
 
-let copyCommandActivated = false;
+let copyCommandActivated = true;
 let firstPoint, secondPoint;
 
 let isRecognitionRunning = false; 
 
 sideNavToggler.addEventListener('click', toggleSideNav);
+
+
 
 function toggleSideNav() {
     sideNav.classList.toggle('open');
@@ -81,37 +84,43 @@ selectOn.addEventListener('click', () => {
     }
 });
 
-document.addEventListener('click', (event) => {
-    console.log('click')
-    if (copyCommandActivated) {
-        console.log('je kan klikken')
-        if (!firstPoint) {
-            firstPoint = event.target;
-            console.log('firstPoint: ', firstPoint)
-        } else if (!secondPoint) {
-            secondPoint = event.target;
-            const range = document.createRange();
-            range.setStart(firstPoint.childNodes[0], 0);
-            range.setEnd(secondPoint.childNodes[0], secondPoint.childNodes[0].length);
-            const selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-            console.log('secondPoint: ', secondPoint)
-            console.log('selectedText: ', window.getSelection().toString())
-        }
+let copiedTexts = [];
+
+document.addEventListener('click', event => {
+    if (!copyCommandActivated) return;
+
+    const point = { node: event.target.childNodes[0], offset: getClickOffset(event) };
+
+    if (!firstPoint) {
+        firstPoint = point;
+    } else {
+        selectText(firstPoint, point);
+        const selectedText = window.getSelection().toString();
+        copiedTexts.push(selectedText);
+        navigator.clipboard.writeText(selectedText).then(() => {
+            console.log('Text copied to clipboard');
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
+        resetSelection();
     }
 });
 
-let mouseMoveTimeout;
-document.addEventListener('mousemove', () => {
-    clearTimeout(mouseMoveTimeout);
-    mouseMoveTimeout = setTimeout(() => {
-        if (copyCommandActivated && firstPoint && secondPoint) {
-            const selectedText = window.getSelection().toString();
-            navigator.clipboard.writeText(selectedText);
-            copyCommandActivated = false;
-            firstPoint = null;
-            secondPoint = null;
-        }
-    }, 3000);
-});
+function getClickOffset(event) {
+    return document.caretRangeFromPoint(event.clientX, event.clientY).startOffset;
+}
+
+function selectText(start, end) {
+    const range = document.createRange();
+    range.setStart(start.node, start.offset);
+    range.setEnd(end.node, end.offset);
+
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+}
+
+function resetSelection() {
+    firstPoint = null;
+    copyCommandActivated = false;
+}
