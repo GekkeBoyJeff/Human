@@ -28,6 +28,27 @@
     --gap: 1em;
 }
 
+body.light {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --background-dark-color: #f1f1f1;
+    --background-dark-grey: #f9f9f9;
+    --border-color: #2e344e;
+    --background-light-color: #10121A;
+    --background-light-color-2: #191D2B;
+    --white-color: #fff;
+    --font-light-color: #313131;
+    --font-dark-color: #313131;
+    --font-dark-color-2: #151515;
+    --sidebar-dark-color: #191D2B;
+}
+
+body.light .sideNav.open ul button {
+    background: var(--secondary-color);
+    color: var(--background-dark-color);
+    font-weight: 700;
+}
+
 button {
     border: none;
     background: var(--background-dark-grey);
@@ -48,6 +69,7 @@ body {
     min-height: 100dvh;
     grid-template-rows: auto 1fr auto;
     overflow: hidden;
+    max-height: 100dvh;
 }
 
 header {
@@ -104,12 +126,19 @@ nav a:hover {
 }
 
 main {
+    max-width: 50em;
+    overflow: hidden;
+    justify-self: center;
+    display: flex;
+}
+
+main section {
     padding: var(--padding);
     background: var(--background-dark-grey);
     border-radius: var(--border-radius);
     max-width: 50em;
     margin: var(--padding);
-    justify-self: center;
+    flex: 1;
 }
 
 footer {
@@ -133,7 +162,7 @@ footer {
 }
 
 .sideNav.open {
-    height: 8em;
+    height: 18em;
 }
 
 .sideNav.open ul {
@@ -153,7 +182,7 @@ footer {
 
 .sideNav.open li {
     flex: 1 1 29%;
-    height: 3em;
+    height: 5em;
     display: grid;
     overflow: hidden;
 }
@@ -164,10 +193,10 @@ footer {
 
 .sideNavToggler {
     position: absolute;
-    top: -4.2em;
+    top: -7.2em;
     right: 0;
-    width: 5em;
-    height: 3em;
+    width: 9em;
+    height: 6em;
     border: calc(1.5* var(--border-radius)) solid var(--background-dark-color);
     border-bottom: unset;
     border-radius: var(--border-radius);
@@ -208,4 +237,70 @@ footer {
         place-content: center;
         padding: calc(1.5 * var(--border-radius));
     }
+}
+
+section.hidden {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    transform: translateX(-100vw);
+}
+
+.clipboardSection {
+    transform: translateX(0);
+    position: unset;
+}
+
+main:has(section.clipboardSection) {
+    max-width: unset;
+}
+
+.content {
+    overflow-y: scroll;
+    height: -webkit-fill-available;
+    padding-bottom: 2em;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--background-light-color);
+    border-radius: 1em;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 1rem;
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+.clipboard li {
+    background: var(--background-dark-color);
+    padding: var(--padding);
+}
+
+.clipboard {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--padding) / 1.5);
+    margin-top: var(--padding);
+}
+
+footer {
+    z-index: 99999;
+}
+
+.open li button:hover {
+    background: var(--primary-color);
 }

@@ -6,6 +6,13 @@
     <title>Human centered design</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/script.js" defer></script>
+    <script type="importmap" defer>
+        {
+          "imports": {
+            "@google/generative-ai": "https://esm.run/@google/generative-ai"
+          }
+        }
+     </script>
 </head>
 <body>
     <header>
@@ -23,10 +30,23 @@
     </header>
     <main>
         <section>
-            <h1>Human Centered Design</h1>
-            <span class="breakline"></span>
-            <p>Human-centered design is a creative approach to problem solving and the backbone of our work at IDEO.org. It's a process that starts with the people you're designing for and ends with new solutions that are tailor made to suit their needs. Human-centered design is all about building a deep empathy with the people you’re designing for; generating tons of ideas; building a bunch of prototypes; sharing what you’ve made with the people you’re designing for; and eventually putting your innovative new solution out in the world.</p>
+            <div class="content">
+                <h1>Human Centered Design</h1>
+                <span class="breakline"></span>
+                <p>Human-centered design is a creative approach to problem solving and the backbone of our work at IDEO.org. It's a process that starts with the people you're designing for and ends with new solutions that are tailor made to suit their needs. Human-centered design is all about building a deep empathy with the people you’re designing for; generating tons of ideas; building a bunch of prototypes; sharing what you’ve made with the people you’re designing for; and eventually putting your innovative new solution out in the world.</p>    
+            </div>
+             </section>
+        <section class="clipboardSection hidden" aria-label="">
+            <h2>clipbord</h2>
+            <ul class="clipboard">
+            </ul>
         </section>
+        <dialog class="askAIDialog">
+            <h2>Stel je vraag</h2>
+            <!-- <p>Ask the AI about information</p> -->
+            <input type="text" class="askAIInput" placeholder="Ask the AI">
+            <button class="askAIButton">Ask</button>
+            <button class="closeAskAI">Close</button>
     </main>
     <footer>
         <nav class="sideNav">
@@ -38,6 +58,7 @@
                 <li><button aria-label="Selectie aanzetten" class="selectOn">Select text</button></li>
                 <li><button aria-label="Selectie uitzetten" class="selectOff">Stop selecting</button></li>
                 <li><button aria-label="show clipboard" class="clipBoardToggler">show clipboard</button></li>
+                <li><button aria-label="Ask the AI about information" class="askAI">Ask AI</button></li>
               </ul>
         </nav>
         <p>&copy; 2024 Human centered design <span>Jeffrey Ullers</span></p>
