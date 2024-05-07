@@ -259,6 +259,9 @@ main:has(section.clipboardSection) {
     overflow-y: scroll;
     height: -webkit-fill-available;
     padding-bottom: 2em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
 
 /* width */
@@ -303,4 +306,18 @@ footer {
 
 .open li button:hover {
     background: var(--primary-color);
+}
+
+.clipboard li:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+    background: var(--border-color);
+    color: var(--background-light-color);
+}
+
+main p span {
+    background: var(--font-light-color);
+    color: black;
+    margin: 1em;
+    display: flex;
 }

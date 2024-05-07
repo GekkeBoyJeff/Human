@@ -115,6 +115,12 @@ async function startSelecting(event) {
     if (!firstPoint) {
         firstPoint = point;
         console.log(firstPoint)
+
+        // // Wrap the selected word in a span
+        // const span = document.createElement('span');
+        // span.textContent = range.toString();
+        // range.deleteContents();
+        // range.insertNode(span);
     } else {
         const secondRange = document.createRange();
         secondRange.setStart(point.node, point.offset);
@@ -149,6 +155,10 @@ function selectText(start, end) {
     const selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
+
+    // de selection moet in een span worden geplaatst
+    const span = document.createElement('span');
+    range.surroundContents(span);
 }
 
 function resetSelection() {
@@ -204,21 +214,7 @@ async function OpenaiFetchAPI(userContent) {
     const url = "https://api.openai.com/v1/chat/completions";
     // const url = "https://api.openai.com/v1/assistants"
     const bearer =
-        "Bearer " + "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";
-
-    // const body = JSON.stringify({
-    //     model: "gpt-3.5-turbo",
-    //     temperature: 1,
-    //     top_p: 1,
-    //     name: 'assistent',
-    //     description: 'Dit is een assistent die vragen beantwoordt over het web. Wees uitgebreid, duidelijk en vriendelijk mogelijk en probeer de vragen zo goed mogelijk te beantwoorden met heel veel informatie en details over de vraag. Dus als iemand vraagt om een locatie, geef aan waar, biedt details over de plek inclusief dingen waar ze voor uit moet kijken',
-    //     instructions: 'Beantwoord de vragen van de gebruiker zo goed mogelijk',
-    //     tools: [
-    //         {
-    //             "type": "retrieval",
-    //         }
-    //     ]
-    // });
+        "Bearer " + "sk-proj-rIZggO9BySAh7eDfaDEXT3BlbkFJzLbhazvw4XpSFAq5hFM1";
 
     const body = JSON.stringify({
         model: "gpt-3.5-turbo",
@@ -228,7 +224,7 @@ async function OpenaiFetchAPI(userContent) {
         "messages": [
             {
                 "role": "system",
-                "content": "Je bent een behulpvolle assistent die vragen beantwoordt over het web. Wees uitgebreid, duidelijk en vriendelijk mogelijk en probeer de vragen zo goed mogelijk te beantwoorden met heel veel informatie en details over de vraag. Dus als iemand vraagt om een locatie, geef aan waar, biedt details over de plek inclusief dingen waar ze voor uit moet kijken"
+                "content": "Je bent een behulpvolle assistent die vragen beantwoordt over het web. Wees uitgebreid, duidelijk en vriendelijk mogelijk en probeer de vragen zo goed mogelijk te beantwoorden met heel veel informatie en details over de vraag. Dus als iemand vraagt om een locatie, geef aan waar, biedt details over de plek inclusief dingen waar ze voor uit moet kijken. Je spreekt mij aan als Nicolette. Je houdt rekening met het feit dat ik een oude vrouw ben, slecht te been ben en dus in een rolstoel zit en dat ik geen computermuis kan gebruiken waardoor ik alles met een tekentablet moet doen"
             },
             {
                 "role": "user",
@@ -255,19 +251,19 @@ async function OpenaiFetchAPI(userContent) {
 // OpenaiFetchAPI("Hoi, ik wil graag weten waar ik mijn fiets met beperking kan parkeren in Amsterdam. Kan je mij vertellen waar ik dat kan?");
 
 
-let currentFontSize = localStorage.getItem('fontSize') || 16;
+let currentFontSize = parseInt(localStorage.getItem('fontSize')) || 16;
 const maxFontSize = 64;
 
 enlarge.addEventListener('click', () => {
     // const userContent = copiedTexts.join(' ');
-    // OpenaiFetchAPI("Waar kan ik mijn fiets met beperking parkeren in Amsterdam?");
+    // OpenaiFetchAPI("Waar kan ik mijn fiets met beperking parkeren in Amsterdam? Kan je mij een specifieke locatie geven?");
 
     currentFontSize += 8;
     if (currentFontSize > maxFontSize) {
         currentFontSize = maxFontSize;
     }
 
-    document.querySelector('main section').style.fontSize = `${currentFontSize}px`;
+    document.querySelector('main').style.fontSize = `${currentFontSize}px`;
     localStorage.setItem('fontSize', currentFontSize);
 });
 
@@ -277,7 +273,7 @@ shrink.addEventListener('click', () => {
         currentFontSize = 16;
     }
 
-    document.querySelector('main section').style.fontSize = `${currentFontSize}px`;
+    document.querySelector('main').style.fontSize = `${currentFontSize}px`;
     localStorage.setItem('fontSize', currentFontSize);
 });
 
@@ -293,7 +289,7 @@ const localStorageChecker = () => {
     const fontSize = localStorage.getItem('fontSize');
     if (fontSize) {
         console.log(fontSize)
-        document.querySelector('main section').style.fontSize = `${fontSize}px`;
+        document.querySelector('main').style.fontSize = `${fontSize}px`;
     }
     if (isLightTheme) {
         document.body.classList.toggle('light');

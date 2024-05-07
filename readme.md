@@ -44,3 +44,13 @@ OpenaiFetchAPI();
 ```
 
 ### week 3
+
+Ik vond dat ik aardig wat progressie had gemaakt op basis van functionaliteiten. Het lukte allemaal niet even goed met de chatGPT api en weet heel eerlijk gezegd niet zo goed meer waarom ik die hoe dan ook wou implementeren.
+
+De test was een ramp. Ik ben erachter gekomen dat het selecteren van tekst niet ideaal is als je twee punten moet selecteren aangezien ze per ongeluk sleept terwijl ze klikt. Dit is een probleem die ik niet had voorzien.
+Verder bleek uit de testen van de anderen dat een venster om de tekst in te plakken handig is als concept voor mevrouw.
+Verder heeft iemand anders via een plugin het mogelijk gemaakt op via toetsaanslagen op haar wacom tablet handelingen zoals kopieren en plakken te doen. Ik ben benieuwd of dat mij ook gaat lukken maar dan zonder plugin.
+
+<!-- Reflecteerd wat je hebt gedaan op de design principles. -->
+<!-- ik moet nog dingen toevoegen zoals het plakken en delen. -->
+<!--  wat heb ik gedaan, wat het probleem was en wat ik daar precies voor heb gedaan -->
