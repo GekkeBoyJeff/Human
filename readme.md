@@ -12,7 +12,7 @@ Op deze dag heb ik een begin gemaakt aan de website. Ik heb een index.html aange
 
 Op dag 2 hebben wij ons eerste gesprek kunnen voeren met Nicolette. Hier hebben wij de vragen kunnen stellen die wij hadden opgesteld. Nicolette heeft ons veel informatie gegeven over wat zij fijn vindt en wat zij niet fijn vindt. Met name over hoe slecht zij kan navigeren op websites. Wat mij voornamelijk opviel is dat zij informatie zocht op één website waarbij het zoeken niet goed werkte. Dit was voor haar erg frustrerend. Hierdoor vond zij de informatie niet.
 
-![alt text](image.png)
+![alt text](assets/image.png)
 
 ### week 2
 
