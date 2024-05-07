@@ -320,4 +320,36 @@ main p span {
     color: black;
     margin: 1em;
     display: flex;
+    padding: 1em;
+    margin: 1em 1em 1em 0;
+}
+
+section:nth-child(-n+3) {
+    display: none;
+}
+
+section:target {
+    display: flex;
+}
+
+.clipboard div {
+    margin-top: 1em;
+    display: flex;
+    gap: 1em;
+}
+
+.clipboard div button {
+    flex: 1;
+    height: 3em;
+}
+
+.clipboard div button:hover {
+    background: var(--primary-color);
+    color: var(--background-dark-color);
+    font-weight: bold;
+}
+
+.light main span {
+    background: var(--font-light-color);
+    color: white;
 }

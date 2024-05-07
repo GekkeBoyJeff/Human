@@ -11,6 +11,8 @@ const askAiDialog = document.querySelector('.askAIDialog');
 const enlarge = document.querySelector('.enlarge');
 const shrink = document.querySelector('.shrink');
 
+const changeText = document.querySelector('header .isRecording span:last-of-type')
+
 let copyCommandActivated = false;
 let firstPoint, secondPoint;
 
@@ -83,7 +85,7 @@ function setupSpeechRecognition() {
 const recognition = setupSpeechRecognition();
 
 askAI.addEventListener('click', () => {
-    toggleHeader();
+    // toggleHeader();
     if (isRecognitionRunning) {
         stopRecognition(recognition);
     } else {
@@ -93,6 +95,8 @@ askAI.addEventListener('click', () => {
 });
 
 selectOn.addEventListener('click', (event) => {
+    toggleHeader()
+    changeText.textContent = '1/2 Selecteer het woord waar je wilt beginnen';
     event.stopPropagation();
     copyCommandActivated = true;
     console.log("copy command activated: ", copyCommandActivated);
@@ -108,6 +112,7 @@ async function startSelecting(event) {
         return;
     }
 
+
     const range = document.caretRangeFromPoint(event.clientX, event.clientY);
     range.expand('word');
     const point = { node: range.startContainer, offset: range.startOffset };
@@ -115,7 +120,7 @@ async function startSelecting(event) {
     if (!firstPoint) {
         firstPoint = point;
         console.log(firstPoint)
-
+        changeText.textContent = '2/2 Selecteer het woord waar je wilt eindigen';
         // // Wrap the selected word in a span
         // const span = document.createElement('span');
         // span.textContent = range.toString();
@@ -134,13 +139,15 @@ async function startSelecting(event) {
         copiedTexts.push(selectedText);
         navigator.clipboard.writeText(selectedText).then(() => {
             localStorage.setItem('copiedTexts', JSON.stringify(copiedTexts));
+            localStorage.setItem('URL', window.location.href);
             updateClipboardSection();
             console.log('Text copied to clipboard');
+            toggleHeader();
         }).catch(err => {
             console.error('Failed to copy text: ', err);
         });
         resetSelection();
-    }
+    }''
 };
 
 function getClickOffset(event) {
@@ -148,6 +155,7 @@ function getClickOffset(event) {
 }
 
 function selectText(start, end) {
+    toggleHeader();
     const range = document.createRange();
     range.setStart(start.node, start.offset);
     range.setEnd(end.node, end.offset);
@@ -159,6 +167,7 @@ function selectText(start, end) {
     // de selection moet in een span worden geplaatst
     const span = document.createElement('span');
     range.surroundContents(span);
+    toggleHeader();
 }
 
 function resetSelection() {
@@ -166,13 +175,43 @@ function resetSelection() {
     copyCommandActivated = false;
 }
 
+function createShareButton(platform, text, url) {
+    const btn = document.createElement('button');
+    btn.textContent = platform;
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Voorkom dat de click event van de parent wordt getriggerd
+        let shareUrl = '';
+        switch (platform) {
+            case 'WhatsApp':
+                shareUrl = `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`;
+                break;
+            case 'Twitter':
+                shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text + ' ' + url)}`;
+                break;
+        }
+        window.open(shareUrl, '_blank');
+    });
+    return btn;
+}
+
 function updateClipboardSection() {
     const ul = clipboardSection.querySelector('ul');
     ul.innerHTML = '';
     const copiedTexts = JSON.parse(localStorage.getItem('copiedTexts')) || [];
+    const url = localStorage.getItem('URL');
     copiedTexts.forEach(text => {
         const li = document.createElement('li');
         li.textContent = text;
+
+        const whatsappButton = createShareButton('WhatsApp', text, url);
+        const twitterButton = createShareButton('Twitter', text, url);
+
+        const div = document.createElement('div');
+        div.appendChild(whatsappButton);
+        div.appendChild(twitterButton);
+
+        li.appendChild(div);
+
         li.addEventListener('click', () => {
             navigator.clipboard.writeText(text).then(() => {
                 console.log('Text copied to clipboard');
@@ -284,6 +323,10 @@ theme.addEventListener('click', () => {
 });
 
 const localStorageChecker = () => {
+    // if url has no #, add #honden
+    if (!window.location.hash) {
+        window.location.hash = '#katten';
+    }
     updateClipboardSection();
     const isLightTheme = localStorage.getItem('isLightTheme') === 'true';
     const fontSize = localStorage.getItem('fontSize');
